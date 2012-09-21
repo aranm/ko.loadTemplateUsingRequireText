@@ -1,0 +1,4 @@
+This little module is used to load knockout templates from the server.
+
+It has dependencies on knockout and the stringTemplateEngine (https://github.com/rniemeyer/SamplePresentation/blob/master/js/stringTemplateEngine.js) by (https://github.com/rniemeyer)
+
