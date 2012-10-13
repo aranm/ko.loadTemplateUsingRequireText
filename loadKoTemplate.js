@@ -1,5 +1,23 @@
-﻿define(["text", "knockout", "stringTemplateEngine"], function (text, ko) {
-   var loader = {
+﻿/*globals define */
+define(["text", "knockout", "stringTemplateEngine"], function (text, ko) {
+   var inferTemplateName = function(name) {
+      var templateName,
+      index = name.indexOf("!"),
+      parts;
+      
+      if (index !== -1) {
+         //use the template name that is specified
+         templateName = name.substring(index + 1, name.length);
+      }
+      else {
+         //use the file name sans the path as the template name
+         parts = name.split("/");
+         templateName = parts[parts.length - 1].split(".").join("-");
+      }
+
+      return templateName;
+   },
+   loader = {
       load: function (name, req, load, config) {
          var onLoad = function (content) {
             var safeName = inferTemplateName(name);
@@ -28,24 +46,6 @@
          text.load(templateName, req, onLoad, config);
       }
    };
-
-   function inferTemplateName(name) {
-      var templateName,
-      index = name.indexOf("!"),
-      parts;
-      
-      if (index !== -1) {
-         //use the template name that is specified
-         templateName = name.substring(index + 1, name.length);
-      }
-      else {
-         //use the file name sans the path as the template name
-         parts = name.split("/");
-         templateName = parts[parts.length - 1].split(".").join("-");
-      }
-
-      return templateName;
-   }
 
    return loader;
 });
