@@ -44,6 +44,16 @@ define(["text", "knockout", "stringTemplateEngine"], function (text, ko) {
          }
 
          text.load(templateName, req, onLoad, config);
+      },
+      write: function (pluginName, moduleName, write, config) {
+         text.write("text", moduleName, write, config);
+
+         var safeName = inferTemplateName(moduleName);
+
+         write.asModule(pluginName + "!" + moduleName,
+            "define(['text!" + moduleName + "', 'knockout', 'stringTemplateEngine'], function (content, ko) {" +
+            "ko.templates['" + safeName + "'] = content;" +
+            "});\n");
       }
    };
 
